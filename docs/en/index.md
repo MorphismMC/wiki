@@ -6,7 +6,7 @@ hero:
   name: "MorphismMC Wiki"
   tagline: 非官方
   image:
-    src: https://gitlab.com/uploads/-/system/group/avatar/76070831/cngtommunity_icon.png
+    src: https://raw.githubusercontent.com/MorphismMC/brand/refs/heads/main/logo-256.png
     alt: MorphismMC
   actions:
     - theme: brand
