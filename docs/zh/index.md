@@ -7,7 +7,7 @@ hero:
   text: "Wiki"
   tagline: ""
   image:
-    src: https://gitlab.com/uploads/-/system/group/avatar/76070831/cngtommunity_icon.png
+    src: https://raw.githubusercontent.com/MorphismMC/brand/refs/heads/main/logo-256.png
     alt: MorphismMC
 
 features:
