@@ -1,89 +1,447 @@
-/**
- * Component: Home
- * -------------------------------------------------------------------------- */
+/* =============================================================================
+ * Custom Fonts
+ * ============================================================================= */
+
+@font-face {
+    font-family: 'Minecraft Ten';
+    src: url('/fonts/Minecraft-Ten.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'Minecraft Seven';
+    src: url('/fonts/Minecraft-Seven.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'NotoSans Bold';
+    src: url('/fonts/NotoSans-Bold.ttf') format('truetype');
+}
+
+/* =============================================================================
+ * CSS Color Palette
+ * ============================================================================= */
 
 :root {
-  --vp-home-hero-name-color: transparent;
-  --vp-home-hero-name-background: -webkit-linear-gradient(120deg,
-      #bd34fe 30%,
-      #41d1ff);
+    /* Page background */
+    --vp-c-bg: #48494A;
+    --vp-c-bg-alt: #3E3F40;
+    --vp-c-bg-elv: #3E3F40;
+    --vp-c-bg-soft: #313233;
 
-  --vp-home-hero-image-background-image: linear-gradient(-45deg,
-      #bd34fe 50%,
-      #47caff 50%);
-  --vp-home-hero-image-filter: blur(44px);
+    /* Text */
+    --vp-c-text-1: #FFFFFF;
+    --vp-c-text-2: rgba(255, 255, 255, 0.75);
+    --vp-c-text-3: rgba(255, 255, 255, 0.5);
 
-  --custom-block-info-left: #cccccc;
-  --custom-block-info-bg: #fafafa;
+    /* Borders & dividers */
+    --vp-c-border: #333334;
+    --vp-c-divider: #58585A;
+    --vp-c-gutter: #48494A;
 
-  --custom-block-tip-left: #009400;
-  --custom-block-tip-bg: #e6f6e6;
+    /* Brand — green accent */
+    --vp-c-brand-1: #3C8527;
+    --vp-c-brand-2: #2A641C;
+    --vp-c-brand-3: #1D4D13;
+    --vp-c-brand-soft: rgba(60, 133, 39, 0.15);
 
-  --custom-block-warning-left: #e6a700;
-  --custom-block-warning-bg: #fff8e6;
+    /* Default (gray) button */
+    --vp-c-default-1: #D0D1D4;
+    --vp-c-default-2: #B1B2B5;
+    --vp-c-default-3: #8C8D90;
+    --vp-c-default-soft: rgba(208, 209, 212, 0.12);
 
-  --custom-block-danger-left: #e13238;
-  --custom-block-danger-bg: #ffebec;
+    /* Typography */
+    --vp-font-family-base: 'NotoSans Bold', -apple-system, BlinkMacSystemFont, sans-serif;
+    --vp-font-family-mono: 'NotoSans Bold', 'Courier New', monospace;
 
-  --custom-block-note-left: #4cb3d4;
-  --custom-block-note-bg: #eef9fd;
+    /* Sharp corners — no border radius (Minecraft pixel aesthetic) */
+    --vp-border-radius: 0;
 
-  --custom-block-important-left: #a371f7;
-  --custom-block-important-bg: #f4eefe;
+    /* Custom block colors — semantic palette */
+    --custom-block-info-left: #2E6BE5;
+    --custom-block-info-bg: #1a2440;
+    --custom-block-tip-left: #6CC349;
+    --custom-block-tip-bg: #1a3010;
+    --custom-block-warning-left: #FFE866;
+    --custom-block-warning-bg: #3d3020;
+    --custom-block-danger-left: #F46D6D;
+    --custom-block-danger-bg: #3d2020;
+    --custom-block-note-left: #8CB3FF;
+    --custom-block-note-bg: #1a2840;
+    --custom-block-important-left: #a371f7;
+    --custom-block-important-bg: #231540;
+    --custom-block-caution-left: #F46D6D;
+    --custom-block-caution-bg: #3d2020;
 
-  --custom-block-caution-left: #e0575b;
-  --custom-block-caution-bg: #fde4e8;
+    /* Navbar */
+    --vp-nav-bg-color: #3E3F40;
+    --vp-nav-height: 48px;
+
+    /* Sidebar */
+    --vp-sidebar-bg-color: #3E3F40;
+
+    /* Code */
+    --vp-code-block-bg: #313233;
+    --vp-code-block-color: #E6E8EB;
+    --vp-code-tab-bg: #313233;
+    --vp-code-tab-text-color: #B1B2B5;
+    --vp-code-tab-hover-bg: #48494A;
+    --vp-code-tab-active-bg: #48494A;
+    --vp-code-tab-active-text-color: #FFFFFF;
+    --vp-code-line-height: 1.6;
+    --vp-code-font-size: 14px;
+    --vp-code-copy-code-bg: #58585A;
+    --vp-code-copy-code-hover-bg: #B1B2B5;
+    --vp-code-copy-code-active-text: #FFFFFF;
+
+    /* Inline code */
+    --vp-c-text-code: #6CC349;
+
+    /* Home hero */
+    --vp-home-hero-name-color: transparent;
+    --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #3C8527 30%, #6CC349);
+    --vp-home-hero-image-background-image: linear-gradient(-45deg, #3C8527 50%, #6CC349 50%);
+    --vp-home-hero-image-filter: blur(44px);
+
+    /* Layout */
+    --vp-layout-max-width: 1440px;
+
+    /* Scrollbar colors */
+    --vp-c-scrollbar-track: #58585A;
+    --vp-c-scrollbar-thumb: #E6E8EB;
 }
 
+/* Dark mode — keep consistent with ui forced dark theme */
 .dark {
-  --custom-block-info-left: #cccccc;
-  --custom-block-info-bg: #474748;
-
-  --custom-block-tip-left: #009400;
-  --custom-block-tip-bg: #003100;
-
-  --custom-block-warning-left: #e6a700;
-  --custom-block-warning-bg: #4d3800;
-
-  --custom-block-danger-left: #e13238;
-  --custom-block-danger-bg: #4b1113;
-
-  --custom-block-note-left: #4cb3d4;
-  --custom-block-note-bg: #193c47;
-
-  --custom-block-important-left: #a371f7;
-  --custom-block-important-bg: #230555;
-
-  --custom-block-caution-left: #e0575b;
-  --custom-block-caution-bg: #391c22;
+    --vp-c-bg: #48494A;
+    --vp-c-bg-alt: #3E3F40;
+    --vp-c-bg-elv: #3E3F40;
+    --vp-c-bg-soft: #313233;
+    --vp-c-text-1: #FFFFFF;
+    --vp-c-text-2: rgba(255, 255, 255, 0.75);
+    --vp-c-text-3: rgba(255, 255, 255, 0.5);
+    --vp-c-border: #333334;
+    --vp-c-divider: #58585A;
+    --vp-c-gutter: #48494A;
+    --vp-c-brand-1: #3C8527;
+    --vp-c-brand-2: #2A641C;
+    --vp-c-brand-3: #1D4D13;
+    --vp-c-brand-soft: rgba(60, 133, 39, 0.15);
+    --vp-c-default-1: #D0D1D4;
+    --vp-c-default-2: #B1B2B5;
+    --vp-c-default-3: #8C8D90;
+    --vp-c-default-soft: rgba(208, 209, 212, 0.12);
+    --vp-nav-bg-color: #3E3F40;
+    --vp-sidebar-bg-color: #3E3F40;
+    --vp-code-block-bg: #313233;
+    --vp-code-block-color: #E6E8EB;
+    --vp-c-text-code: #6CC349;
+    --vp-home-hero-name-color: transparent;
+    --vp-home-hero-name-background: -webkit-linear-gradient(120deg, #3C8527 30%, #6CC349);
+    --vp-home-hero-image-background-image: linear-gradient(-45deg, #3C8527 50%, #6CC349 50%);
+    --vp-home-hero-image-filter: blur(44px);
+    --custom-block-info-left: #2E6BE5;
+    --custom-block-info-bg: #1a2440;
+    --custom-block-tip-left: #6CC349;
+    --custom-block-tip-bg: #1a3010;
+    --custom-block-warning-left: #FFE866;
+    --custom-block-warning-bg: #3d3020;
+    --custom-block-danger-left: #F46D6D;
+    --custom-block-danger-bg: #3d2020;
+    --custom-block-note-left: #8CB3FF;
+    --custom-block-note-bg: #1a2840;
+    --custom-block-important-left: #a371f7;
+    --custom-block-important-bg: #231540;
+    --custom-block-caution-left: #F46D6D;
+    --custom-block-caution-bg: #3d2020;
+    --vp-c-scrollbar-track: #58585A;
+    --vp-c-scrollbar-thumb: #E6E8EB;
 }
 
-/* ----------------------------------------------- Home Picture Effect ---------------------------------------------- */
-@media (min-width: 640px) {
-  :root {
-    --vp-home-hero-image-filter: blur(56px);
-  }
+/* =============================================================================
+ * Global Element Styles
+ * ============================================================================= */
+
+/* Force sharp corners everywhere */
+*,
+*::before,
+*::after {
+    border-radius: 0 !important;
 }
 
-@media (min-width: 960px) {
-  :root {
-    --vp-home-hero-image-filter: blur(68px);
-  }
+/* Selection — green accent matching text field caret */
+::selection {
+    background-color: rgba(108, 195, 73, 0.5);
+    color: #FFFFFF;
 }
 
-/* ---------------------------------------------- Custom Block Effects ---------------------------------------------- */
-.custom-block-title {
+/* Body */
+body {
+    font-family: 'NotoSans Bold', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: #48494A;
+}
+
+/* =============================================================================
+ * Navbar
+ * ============================================================================= */
+
+.VPNav {
+    border-bottom: 4px solid #58585A;
+}
+
+.VPNavBar {
+    background-color: #3E3F40;
+    border-bottom: 2px solid #333334;
+}
+
+.VPNavBarTitle .title {
+    font-family: 'Minecraft Ten', sans-serif;
+    font-size: 22px;
+    line-height: 1;
+}
+
+/* Navbar links */
+.VPNavBarMenuLink {
+    font-family: 'NotoSans Bold', sans-serif;
+    border: 2px solid transparent;
+}
+
+.VPNavBarMenuLink:hover {
+    background-color: #48494A;
+    border-left: 2px solid #FFFFFF;
+    border-right: 2px solid #333334;
+}
+
+.VPNavBarMenuLink.active {
+    border-left: 2px solid #3C8527;
+}
+
+/* Search */
+.DocSearch-Button {
+    background-color: #48494A !important;
+    border: 2px solid #333334 !important;
+    box-shadow: inset 0 -3px #58585A, inset 2px 2px rgba(255,255,255,0.08), inset -2px -5px rgba(255,255,255,0.05) !important;
+    font-family: 'NotoSans Bold', sans-serif !important;
+}
+
+.DocSearch-Button:hover {
+    background-color: #58585A !important;
+    box-shadow: inset 0 -3px #58585A, inset 2px 2px rgba(255,255,255,0.12), inset -2px -5px rgba(255,255,255,0.08) !important;
+}
+
+/* =============================================================================
+ * Sidebar
+ * ============================================================================= */
+
+.VPSidebar {
+    background-color: #3E3F40;
+    border-right: 2px solid #333334;
+}
+
+.VPSidebarItem .item {
+    font-family: 'NotoSans Bold', sans-serif;
+    border-left: 2px solid transparent;
+    border-bottom: 1px solid #58585A;
+}
+
+.VPSidebarItem .item:hover {
+    background-color: #48494A;
+    border-left: 2px solid #FFFFFF;
+}
+
+.VPSidebarItem .item.active {
+    background-color: rgba(60, 133, 39, 0.15);
+    border-left: 2px solid #3C8527;
+    color: #6CC349;
+}
+
+.VPSidebarItem .text {
+    font-family: 'NotoSans Bold', sans-serif;
+}
+
+/* Sidebar group titles */
+.VPSidebarItem .caret {
+    font-family: 'Minecraft Seven', sans-serif;
+}
+
+.VPSidebarItem .group .text {
+    font-family: 'Minecraft Seven', sans-serif;
+    font-size: 14px;
+    color: #B1B2B5;
+    letter-spacing: 0.5px;
+}
+
+/* Sidebar section divider */
+.VPSidebar .group + .group {
+    border-top: 2px solid #58585A;
+    padding-top: 8px;
+}
+
+/* =============================================================================
+ * Content Area
+ * ============================================================================= */
+
+/* Main content background and text */
+.vp-doc {
+    font-family: 'NotoSans Bold', sans-serif;
+}
+
+/* Headings */
+.vp-doc h1 {
+    font-family: 'Minecraft Ten', sans-serif;
+    font-size: 28px;
+    color: #FFFFFF;
+    border-bottom: 2px solid #333334;
+    border-top: 2px solid #5A5B5C;
+    padding: 12px 0;
+    margin-bottom: 20px;
+}
+
+.vp-doc h2 {
+    font-family: 'Minecraft Seven', sans-serif;
+    font-size: 21px;
+    color: #FFFFFF;
+    border-bottom: 2px solid #58585A;
+    padding-bottom: 8px;
+    margin-top: 30px;
+}
+
+.vp-doc h3 {
+    font-family: 'Minecraft Seven', sans-serif;
+    font-size: 18px;
+    color: #E6E8EB;
+}
+
+.vp-doc h4 {
+    font-family: 'NotoSans Bold', sans-serif;
+    font-size: 16px;
+    color: #D0D1D4;
+}
+
+/* Paragraphs */
+.vp-doc p {
+    line-height: 1.7;
+}
+
+/* Links */
+.vp-doc a:not(.header-anchor) {
+    color: #FFFFFF;
+    text-decoration: none;
+    box-shadow: inset 0 -2px 0 0 currentColor;
+    transition: color 0.2s;
+}
+
+.vp-doc a:not(.header-anchor):hover {
+    color: #6CC349;
+    box-shadow: inset 0 -2px 0 0 #6CC349;
+}
+
+/* Header anchor links */
+.vp-doc .header-anchor {
+    color: #B1B2B5;
+    opacity: 0;
+}
+
+.vp-doc h1:hover .header-anchor,
+.vp-doc h2:hover .header-anchor,
+.vp-doc h3:hover .header-anchor {
+    opacity: 1;
+    color: #6CC349;
+}
+
+/* Blockquotes */
+.vp-doc blockquote {
+    border-left: 6px solid #2E6BE5;
+    background-color: rgba(46, 107, 229, 0.1);
+    margin: 10px 0;
+    padding: 10px 16px;
+    font-family: 'NotoSans Bold', sans-serif;
     font-size: 16px;
 }
 
+/* Horizontal rule */
+.vp-doc hr {
+    border: none;
+    border-top: 2px solid #58585A;
+    margin: 30px 0;
+}
 
+/* =============================================================================
+ * Content Cards — block style with 3D beveled borders
+ * ============================================================================= */
+
+/* Info containers, card-like elements */
+.vp-doc .info-custom-block,
+.vp-doc table {
+    border: 2px solid #333334;
+    border-top: 2px solid #5A5B5C;
+    background-color: #48494A;
+}
+
+/* =============================================================================
+ * Tables
+ * ============================================================================= */
+
+.vp-doc table {
+    display: block;
+    overflow-x: auto;
+    border-collapse: collapse;
+    border: 2px solid #333334;
+    border-top: 2px solid #5A5B5C;
+}
+
+.vp-doc thead {
+    background-color: #313233;
+    border-bottom: 2px solid #333334;
+}
+
+.vp-doc th {
+    font-family: 'Minecraft Seven', sans-serif;
+    font-size: 14px;
+    color: #FFFFFF;
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 2px solid #58585A;
+}
+
+.vp-doc td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #58585A;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.vp-doc tr:last-child td {
+    border-bottom: none;
+}
+
+.vp-doc tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+/* =============================================================================
+ * Custom Blocks (info, tip, warning, danger, note, important, caution)
+ * ============================================================================= */
+
+.custom-block {
+    border-left: 5px solid;
+    padding: 16px 20px;
+    margin: 16px 0;
+    font-family: 'NotoSans Bold', sans-serif;
+}
+
+.custom-block-title {
+    font-size: 16px;
+    font-family: 'Minecraft Seven', sans-serif;
+}
+
+/* Info */
 .custom-block.info {
     border-left: 5px solid var(--custom-block-info-left);
     background-color: var(--custom-block-info-bg);
 }
 .custom-block.info [class*="custom-block-title"]::before {
     content: '';
-    background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-11v6h2v-6h-2zm0-4v2h2V7h-2z' fill='%23ccc'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-11v6h2v-6h-2zm0-4v2h2V7h-2z' fill='%232E6BE5'/%3E%3C/svg%3E");
     width: 20px;
     height: 20px;
     display: inline-block;
@@ -94,14 +452,14 @@
     top: -1px;
 }
 
+/* Tip */
 .custom-block.tip {
-    /* border-color: var(--custom-block-tip); */
     border-left: 5px solid var(--custom-block-tip-left);
     background-color: var(--custom-block-tip-bg);
 }
 .custom-block.tip [class*="custom-block-title"]::before {
     content: '';
-    background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23009400' d='M7.941 18c-.297-1.273-1.637-2.314-2.187-3a8 8 0 1 1 12.49.002c-.55.685-1.888 1.726-2.185 2.998H7.94zM16 20v1a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-1h8zm-3-9.995V6l-4.5 6.005H11v4l4.5-6H13z'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%236CC349' d='M7.941 18c-.297-1.273-1.637-2.314-2.187-3a8 8 0 1 1 12.49.002c-.55.685-1.888 1.726-2.185 2.998H7.94zM16 20v1a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2v-1h8zm-3-9.995V6l-4.5 6.005H11v4l4.5-6H13z'/%3E%3C/svg%3E");
     width: 20px;
     height: 20px;
     display: inline-block;
@@ -112,13 +470,14 @@
     top: -2px;
 }
 
+/* Warning */
 .custom-block.warning {
     border-left: 5px solid var(--custom-block-warning-left);
     background-color: var(--custom-block-warning-bg);
 }
 .custom-block.warning [class*="custom-block-title"]::before {
     content: '';
-    background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1024 1024'%3E%3Cpath d='M576.286 752.57v-95.425q0-7.031-4.771-11.802t-11.3-4.772h-96.43q-6.528 0-11.3 4.772t-4.77 11.802v95.424q0 7.031 4.77 11.803t11.3 4.77h96.43q6.528 0 11.3-4.77t4.77-11.803zm-1.005-187.836 9.04-230.524q0-6.027-5.022-9.543-6.529-5.524-12.053-5.524H456.754q-5.524 0-12.053 5.524-5.022 3.516-5.022 10.547l8.538 229.52q0 5.023 5.022 8.287t12.053 3.265h92.913q7.032 0 11.803-3.265t5.273-8.287zM568.25 95.65l385.714 707.142q17.578 31.641-1.004 63.282-8.538 14.564-23.354 23.102t-31.892 8.538H126.286q-17.076 0-31.892-8.538T71.04 866.074q-18.582-31.641-1.004-63.282L455.75 95.65q8.538-15.57 23.605-24.61T512 62t32.645 9.04 23.605 24.61z' fill='%23e6a700'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1024 1024'%3E%3Cpath d='M576.286 752.57v-95.425q0-7.031-4.771-11.802t-11.3-4.772h-96.43q-6.528 0-11.3 4.772t-4.77 11.802v95.424q0 7.031 4.77 11.803t11.3 4.77h96.43q6.528 0 11.3-4.77t4.77-11.803zm-1.005-187.836 9.04-230.524q0-6.027-5.022-9.543-6.529-5.524-12.053-5.524H456.754q-5.524 0-12.053 5.524-5.022 3.516-5.022 10.547l8.538 229.52q0 5.023 5.022 8.287t12.053 3.265h92.913q7.032 0 11.803-3.265t5.273-8.287zM568.25 95.65l385.714 707.142q17.578 31.641-1.004 63.282-8.538 14.564-23.354 23.102t-31.892 8.538H126.286q-17.076 0-31.892-8.538T71.04 866.074q-18.582-31.641-1.004-63.282L455.75 95.65q8.538-15.57 23.605-24.61T512 62t32.645 9.04 23.605 24.61z' fill='%23FFE866'/%3E%3C/svg%3E");
     width: 20px;
     height: 20px;
     display: inline-block;
@@ -128,13 +487,14 @@
     left: -5px;
 }
 
+/* Danger */
 .custom-block.danger {
     border-left: 5px solid var(--custom-block-danger-left);
     background-color: var(--custom-block-danger-bg);
 }
 .custom-block.danger [class*="custom-block-title"]::before {
     content: '';
-    background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2c5.523 0 10 4.477 10 10v3.764a2 2 0 0 1-1.106 1.789L18 19v1a3 3 0 0 1-2.824 2.995L14.95 23a2.5 2.5 0 0 0 .044-.33L15 22.5V22a2 2 0 0 0-1.85-1.995L13 20h-2a2 2 0 0 0-1.995 1.85L9 22v.5c0 .171.017.339.05.5H9a3 3 0 0 1-3-3v-1l-2.894-1.447A2 2 0 0 1 2 15.763V12C2 6.477 6.477 2 12 2zm-4 9a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z' fill='%23e13238'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2c5.523 0 10 4.477 10 10v3.764a2 2 0 0 1-1.106 1.789L18 19v1a3 3 0 0 1-2.824 2.995L14.95 23a2.5 2.5 0 0 0 .044-.33L15 22.5V22a2 2 0 0 0-1.85-1.995L13 20h-2a2 2 0 0 0-1.995 1.85L9 22v.5c0 .171.017.339.05.5H9a3 3 0 0 1-3-3v-1l-2.894-1.447A2 2 0 0 1 2 15.763V12C2 6.477 6.477 2 12 2zm-4 9a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z' fill='%23F46D6D'/%3E%3C/svg%3E");
     width: 20px;
     height: 20px;
     display: inline-block;
@@ -145,13 +505,14 @@
     top: -1px;
 }
 
+/* Note */
 .custom-block.note {
     border-left: 5px solid var(--custom-block-note-left);
     background-color: var(--custom-block-note-bg);
 }
 .custom-block.note [class*="custom-block-title"]::before {
     content: '';
-    background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-11v6h2v-6h-2zm0-4v2h2V7h-2z' fill='%234cb3d4'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-11v6h2v-6h-2zm0-4v2h2V7h-2z' fill='%238CB3FF'/%3E%3C/svg%3E");
     width: 20px;
     height: 20px;
     display: inline-block;
@@ -162,6 +523,7 @@
     top: -1px;
 }
 
+/* Important */
 .custom-block.important {
     border-left: 5px solid var(--custom-block-important-left);
     background-color: var(--custom-block-important-bg);
@@ -179,13 +541,14 @@
     top: -1px;
 }
 
+/* Caution */
 .custom-block.caution {
     border-left: 5px solid var(--custom-block-caution-left);
     background-color: var(--custom-block-caution-bg);
 }
 .custom-block.caution [class*="custom-block-title"]::before {
     content: '';
-    background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2c5.523 0 10 4.477 10 10v3.764a2 2 0 0 1-1.106 1.789L18 19v1a3 3 0 0 1-2.824 2.995L14.95 23a2.5 2.5 0 0 0 .044-.33L15 22.5V22a2 2 0 0 0-1.85-1.995L13 20h-2a2 2 0 0 0-1.995 1.85L9 22v.5c0 .171.017.339.05.5H9a3 3 0 0 1-3-3v-1l-2.894-1.447A2 2 0 0 1 2 15.763V12C2 6.477 6.477 2 12 2zm-4 9a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z' fill='%23e13238'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2c5.523 0 10 4.477 10 10v3.764a2 2 0 0 1-1.106 1.789L18 19v1a3 3 0 0 1-2.824 2.995L14.95 23a2.5 2.5 0 0 0 .044-.33L15 22.5V22a2 2 0 0 0-1.85-1.995L13 20h-2a2 2 0 0 0-1.995 1.85L9 22v.5c0 .171.017.339.05.5H9a3 3 0 0 1-3-3v-1l-2.894-1.447A2 2 0 0 1 2 15.763V12C2 6.477 6.477 2 12 2zm-4 9a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z' fill='%23F46D6D'/%3E%3C/svg%3E");
     width: 20px;
     height: 20px;
     display: inline-block;
@@ -194,4 +557,280 @@
     margin-right: 4px;
     left: -5px;
     top: -1px;
+}
+
+/* =============================================================================
+ * Code Blocks
+ * ============================================================================= */
+
+.vp-doc div[class*="language-"] {
+    background-color: #313233;
+    border: 2px solid #1E1E1F;
+    box-shadow: inset 0 4px #242425;
+    margin: 16px 0;
+}
+
+.vp-doc div[class*="language-"] code {
+    font-family: 'NotoSans Bold', monospace;
+    color: #E6E8EB;
+}
+
+/* Inline code */
+.vp-doc :not(pre) > code {
+    background-color: #313233;
+    border: 1px solid #58585A;
+    color: #6CC349;
+    font-family: 'NotoSans Bold', monospace;
+    padding: 1px 5px;
+    font-size: 0.875em;
+}
+
+/* Code group tabs */
+.vp-code-group .tabs {
+    background-color: #3E3F40;
+    border-bottom: 2px solid #333334;
+}
+
+.vp-code-group .tab {
+    font-family: 'NotoSans Bold', sans-serif;
+    color: #B1B2B5;
+    border-right: 2px solid #333334;
+}
+
+.vp-code-group .tab.active {
+    background-color: #313233;
+    color: #6CC349;
+    border-bottom: 2px solid #6CC349;
+}
+
+/* =============================================================================
+ * Buttons (VitePress brand/home buttons)
+ * ============================================================================= */
+
+/* Brand button (primary action) */
+.VPButton.brand {
+    background-color: #3C8527;
+    border: 2px solid #1E1E1F;
+    box-shadow: inset 0 -4px #1D4D13, inset 3px 3px rgba(255,255,255,0.2), inset -3px -7px rgba(255,255,255,0.1);
+    color: #FFFFFF;
+    font-family: 'NotoSans Bold', sans-serif;
+    padding-bottom: 6px;
+}
+
+.VPButton.brand:hover {
+    background-color: #2A641C;
+    box-shadow: inset 0 -4px #1D4D13, inset 3px 3px rgba(255,255,255,0.4), inset -3px -7px rgba(255,255,255,0.3);
+}
+
+.VPButton.brand:active {
+    background-color: #1D4D13;
+    box-shadow: inset 3px 3px rgba(255,255,255,0.4), inset -3px -3px rgba(255,255,255,0.3);
+    padding-top: 8px;
+    padding-bottom: 2px;
+}
+
+/* Alt button (secondary) */
+.VPButton.alt {
+    background-color: #D0D1D4;
+    border: 2px solid #1E1E1F;
+    box-shadow: inset 0 -4px #58585A, inset 3px 3px rgba(255,255,255,0.6), inset -3px -7px rgba(255,255,255,0.4);
+    color: #000000;
+    font-family: 'NotoSans Bold', sans-serif;
+    padding-bottom: 6px;
+}
+
+.VPButton.alt:hover {
+    background-color: #B1B2B5;
+    box-shadow: inset 0 -4px #58585A, inset 3px 3px rgba(255,255,255,0.8), inset -3px -7px rgba(255,255,255,0.6);
+}
+
+.VPButton.alt:active {
+    background-color: #B1B2B5;
+    box-shadow: inset 3px 3px rgba(255,255,255,0.8), inset -3px -3px rgba(255,255,255,0.6);
+    padding-top: 8px;
+    padding-bottom: 2px;
+}
+
+/* =============================================================================
+ * Home Hero Section
+ * ============================================================================= */
+
+.VPHero .name {
+    font-family: 'Minecraft Ten', sans-serif;
+}
+
+.VPHero .text {
+    font-family: 'Minecraft Seven', sans-serif;
+    font-size: 24px;
+}
+
+.VPHero .tagline {
+    font-family: 'NotoSans Bold', sans-serif;
+    color: rgba(255, 255, 255, 0.65);
+}
+
+/* Feature cards on home page */
+.VPFeature {
+    background-color: #3E3F40;
+    border: 2px solid #333334;
+    border-top: 2px solid #5A5B5C;
+}
+
+.VPFeature:hover {
+    border-color: #58585A;
+    border-top-color: #B1B2B5;
+}
+
+.VPFeature .title {
+    font-family: 'Minecraft Seven', sans-serif;
+    font-size: 16px;
+}
+
+.VPFeature .details {
+    font-family: 'NotoSans Bold', sans-serif;
+    color: rgba(255, 255, 255, 0.65);
+}
+
+/* =============================================================================
+ * Footer
+ * ============================================================================= */
+
+.VPFooter {
+    background-color: #3E3F40;
+    border-top: 4px solid #58585A;
+}
+
+.VPFooter .message,
+.VPFooter .copyright {
+    font-family: 'NotoSans Bold', sans-serif;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* =============================================================================
+ * "Edit this page" & "Last updated"
+ * ============================================================================= */
+
+.edit-link,
+.last-updated {
+    font-family: 'NotoSans Bold', sans-serif;
+    color: #B1B2B5;
+}
+
+/* =============================================================================
+ * Doc footer (prev/next navigation)
+ * ============================================================================= */
+
+.prev-next .pager-link {
+    background-color: #3E3F40;
+    border: 2px solid #333334;
+    border-top: 2px solid #5A5B5C;
+}
+
+.prev-next .pager-link:hover {
+    border-color: #58585A;
+    border-top-color: #B1B2B5;
+}
+
+.prev-next .pager-link .title {
+    font-family: 'NotoSans Bold', sans-serif;
+    color: #FFFFFF;
+}
+
+.prev-next .pager-link .desc {
+    font-family: 'NotoSans Bold', sans-serif;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* =============================================================================
+ * Outline (right sidebar TOC)
+ * ============================================================================= */
+
+.VPDocAsideOutline .outline-title {
+    font-family: 'Minecraft Seven', sans-serif;
+    font-size: 14px;
+}
+
+.VPDocAsideOutline .outline-link {
+    font-family: 'NotoSans Bold', sans-serif;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.VPDocAsideOutline .outline-link:hover,
+.VPDocAsideOutline .outline-link.active {
+    color: #6CC349;
+    border-left: 2px solid #6CC349;
+}
+
+/* =============================================================================
+ * Scrollbar — Minecraft-style
+ * ============================================================================= */
+
+::-webkit-scrollbar {
+    width: 14px;
+    height: 14px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #58585A;
+    border: 2px solid #333334;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #E6E8EB;
+    border: 2px solid #1E1E1F;
+    box-shadow: inset 0 -4px #58585A, inset 0 -7px #F9FAFA, inset 3px 3px #F9FAFA, inset -3px 0 #F9FAFA;
+    min-height: 35px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #F4F6F9;
+}
+
+::-webkit-scrollbar-corner {
+    background-color: #58585A;
+}
+
+/* Firefox scrollbar */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #E6E8EB #58585A;
+}
+
+/* =============================================================================
+ * Badges / Tags (VitePress built-in)
+ * ============================================================================= */
+
+.vp-doc .vp-tag {
+    font-family: 'NotoSans Bold', sans-serif;
+    font-size: 12px;
+}
+
+/* =============================================================================
+ * Responsive: Home hero blur adjustments
+ * ============================================================================= */
+
+@media (min-width: 640px) {
+    :root {
+        --vp-home-hero-image-filter: blur(56px);
+    }
+}
+
+@media (min-width: 960px) {
+    :root {
+        --vp-home-hero-image-filter: blur(68px);
+    }
+}
+
+/* =============================================================================
+ * Mobile adjustments
+ * ============================================================================= */
+
+@media (max-width: 768px) {
+    .VPNavBarTitle .title {
+        font-size: 18px;
+    }
+
+    .VPHero .name {
+        font-size: 36px;
+    }
 }
