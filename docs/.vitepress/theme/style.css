@@ -666,40 +666,90 @@ body {
 .VPHero {
     border-top: 2px solid #5A5B5C;
     border-bottom: 2px solid #333334;
-    padding: 40px 0 32px;
-    text-align: center;
+    margin-top: 0;
+    padding: 36px 24px;
+    text-align: left;
 }
 
 .VPHero .container {
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    gap: 16px;
-    max-width: 720px;
+    justify-content: center;
+    gap: 40px;
+    max-width: 900px;
     margin: 0 auto;
 }
 
-/* Hero image — like Minecraft artwork, centered above text */
+/* Image area — left side, moderate size */
+.VPHero .image {
+    order: 1;
+    margin: 0;
+    flex-shrink: 0;
+}
+
 .VPHero .image-container {
-    order: -1;
-    margin: 0 auto 12px;
+    position: relative;
+    margin: 0;
+    width: 160px;
+    height: 160px;
 }
 
-.VPHero .image-container .VPImage {
-    max-width: 380px;
-    width: 80%;
-    height: auto;
-    display: block;
-    margin: 0 auto;
+@media (min-width: 640px) {
+    .VPHero .image-container {
+        width: 200px;
+        height: 200px;
+    }
 }
 
+/* Hide the blur/gradient background circle */
 .VPHero .image-bg {
     display: none;
 }
 
-/* Main content area in hero */
+/* Logo image — centered in container */
+.VPHero .image-src {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 150px !important;
+    max-height: 150px !important;
+    width: auto;
+    height: auto;
+    display: block;
+}
+
+@media (min-width: 640px) {
+    .VPHero .image-src {
+        max-width: 190px !important;
+        max-height: 190px !important;
+    }
+}
+
+/* Main content area — right side text */
 .VPHero .main {
-    text-align: center;
-    max-width: 100%;
+    order: 2;
+    text-align: left;
+    max-width: 480px;
+    flex: 1;
+}
+
+/* Override VitePress scoped styles that center text when image present */
+.VPHero.has-image .container {
+    text-align: left;
+}
+
+.VPHero.has-image .name,
+.VPHero.has-image .text {
+    margin: 0;
+}
+
+.VPHero.has-image .tagline {
+    margin: 0;
+}
+
+.VPHero.has-image .actions {
+    justify-content: flex-start;
 }
 
 /* Hero name — large Minecraft Ten title */
