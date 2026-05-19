@@ -7,6 +7,7 @@ const localeTitles: Record<string, Record<string, string>> = {
     danger: "危险",
     info: "信息",
     details: "详细信息",
+    codeCopy: "复制代码",
   },
   en: {
     tip: "TIP",
@@ -14,6 +15,7 @@ const localeTitles: Record<string, Record<string, string>> = {
     danger: "DANGER",
     info: "INFO",
     details: "Details",
+    codeCopy: "Copy Code",
   },
 }
 
@@ -55,5 +57,27 @@ export function localeContainersPlugin(md: MarkdownIt): void {
 
       return defaultRender(tokens, idx, options, env, self)
     }
+  }
+
+  // Override fence renderer to inject locale-aware code copy button title.
+  // The preWrapperPlugin stores its options object on the original fence rule
+  // so we intercept the call and patch options.codeCopyButtonTitle per-page.
+  const originalFence = md.renderer.rules.fence
+  if (!originalFence) return
+
+  md.renderer.rules.fence = (...args: any[]) => {
+    const env = args[3]
+    const locale = getLocale(env)
+    const title = localeTitles[locale]?.codeCopy ?? localeTitles.en.codeCopy
+
+    // Inject locale-specific title into the HTML output.
+    const result = originalFence(...args)
+    if (typeof result === "string") {
+      return result.replace(
+        /title="[^"]*" class="copy"/,
+        `title="${title}" class="copy"`
+      )
+    }
+    return result
   }
 }
