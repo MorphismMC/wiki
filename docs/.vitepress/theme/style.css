@@ -755,8 +755,8 @@ body {
 /* Hero name — large Minecraft Ten title */
 .VPHero .name {
     font-family: 'Minecraft Ten', sans-serif;
-    font-size: 38px;
-    line-height: 1.2;
+    font-size: 44px;
+    line-height: 1.15;
     color: #FFFFFF;
     max-width: 100%;
 }
@@ -764,8 +764,8 @@ body {
 /* Hero subtitle — Minecraft Seven */
 .VPHero .text {
     font-family: 'Minecraft Seven', sans-serif;
-    font-size: 26px;
-    line-height: 1.4;
+    font-size: 28px;
+    line-height: 1.3;
     color: #D0D1D4;
     padding-top: 8px;
 }
@@ -773,7 +773,7 @@ body {
 /* Hero tagline — NotoSans Bold */
 .VPHero .tagline {
     font-family: 'NotoSans Bold', sans-serif;
-    font-size: 17px;
+    font-size: 18px;
     color: rgba(255, 255, 255, 0.55);
     padding-top: 6px;
 }

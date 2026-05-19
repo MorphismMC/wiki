@@ -3,8 +3,7 @@
 layout: home
 
 hero:
-  name: "MorphismMC"
-  text: "Wiki"
+  name: "MorphismMC Wiki"
   tagline: Minecraft 模组开发文档
   image:
     src: /img/logo.png
