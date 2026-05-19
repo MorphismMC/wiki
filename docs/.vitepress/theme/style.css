@@ -652,43 +652,217 @@ body {
 }
 
 /* =============================================================================
- * Home Hero Section
+ * Homepage — Minecraft Bedrock Edition Layout
  * ============================================================================= */
 
+/*
+ * Layout mimics the OreUI structure:
+ *   1. Title section (centered, bordered top/bottom)
+ *   2. Button/action block (bordered)
+ *   3. Feature cards block (link-block style with flash animation)
+ */
+
+/* --- Hero container — OreUI main_title section --- */
+.VPHero {
+    border-top: 2px solid #5A5B5C;
+    border-bottom: 2px solid #333334;
+    padding: 40px 0 32px;
+    text-align: center;
+}
+
+.VPHero .container {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+/* Hero image — like Minecraft artwork, centered above text */
+.VPHero .image-container {
+    order: -1;
+    margin: 0 auto 12px;
+}
+
+.VPHero .image-container .VPImage {
+    max-width: 380px;
+    width: 80%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.VPHero .image-bg {
+    display: none;
+}
+
+/* Main content area in hero */
+.VPHero .main {
+    text-align: center;
+    max-width: 100%;
+}
+
+/* Hero name — large Minecraft Ten title */
 .VPHero .name {
     font-family: 'Minecraft Ten', sans-serif;
+    font-size: 38px;
+    line-height: 1.2;
+    color: #FFFFFF;
+    max-width: 100%;
 }
 
+/* Hero subtitle — Minecraft Seven */
 .VPHero .text {
     font-family: 'Minecraft Seven', sans-serif;
-    font-size: 24px;
+    font-size: 26px;
+    line-height: 1.4;
+    color: #D0D1D4;
+    padding-top: 8px;
 }
 
+/* Hero tagline — NotoSans Bold */
 .VPHero .tagline {
     font-family: 'NotoSans Bold', sans-serif;
-    color: rgba(255, 255, 255, 0.65);
+    font-size: 17px;
+    color: rgba(255, 255, 255, 0.55);
+    padding-top: 6px;
 }
 
-/* Feature cards on home page */
-.VPFeature {
-    background-color: #3E3F40;
+/* --- Features section — OreUI block with link-block cards --- */
+
+/* Features container: full-width OreUI block border (all 4 sides) */
+.VPFeatures {
     border: 2px solid #333334;
     border-top: 2px solid #5A5B5C;
+    margin: 0 20px;
+    padding: 20px 0;
+    background-color: #48494A;
+}
+
+/* Remove default VitePress container padding so cards align with borders */
+.VPFeatures .container {
+    padding: 0;
+    margin: 0;
+    max-width: none;
+}
+
+/* Feature cards grid — wrap flex like OreUI link-block group */
+.VPFeatures .items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    padding: 0 8px;
+}
+
+/* Each feature item — equal width cards */
+.VPFeatures .item {
+    flex: 1 1 220px;
+    max-width: 280px;
+    display: flex;
+}
+
+/* Feature cards — OreUI link-block style */
+.VPFeature {
+    background-color: transparent;
+    border: 2px solid #58585A;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 6px;
+    overflow: hidden;
+    padding: 16px 17px;
+    position: relative;
+    transition: border-color 0.2s, background-color 0.2s;
+}
+
+/* Link-block flash animation — white sheen sweeps across on hover */
+.VPFeature::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 15px;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.6);
+    transform: skewX(-45deg);
+    transition: none;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.VPFeature::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 6px;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+    transform: skewX(-45deg);
+    transition: none;
+    z-index: 1;
+    pointer-events: none;
+}
+
+@keyframes oreui-thick-flash {
+    0%   { left: -150%; }
+    100% { left: 150%; }
+}
+
+@keyframes oreui-thin-flash {
+    0%   { left: -150%; }
+    100% { left: 150%; }
+}
+
+.VPFeature:hover::before {
+    animation: oreui-thick-flash 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.VPFeature:hover::after {
+    animation: oreui-thin-flash 0.6s 0.01s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .VPFeature:hover {
-    border-color: #58585A;
-    border-top-color: #B1B2B5;
+    border: 2px solid #6D6D6E;
+    background-color: #58585A;
 }
 
+/* Feature card icon */
+.VPFeature .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+
+/* Feature card title — Minecraft Seven */
 .VPFeature .title {
     font-family: 'Minecraft Seven', sans-serif;
-    font-size: 16px;
+    font-size: 17px;
+    color: #FFFFFF;
+    text-align: center;
+    line-height: 1.3;
+    margin-bottom: 6px;
 }
 
+/* Feature card description — NotoSans Bold */
 .VPFeature .details {
     font-family: 'NotoSans Bold', sans-serif;
-    color: rgba(255, 255, 255, 0.65);
+    font-size: 14px;
+    color: #D0D1D4;
+    text-align: center;
+    line-height: 1.5;
+}
+
+/* Feature card link styling */
+.VPFeature .title a,
+.VPFeature .details a {
+    color: inherit;
+    text-decoration: none;
 }
 
 /* =============================================================================
