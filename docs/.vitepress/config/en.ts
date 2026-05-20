@@ -6,7 +6,9 @@ export const en = defineConfig({
     nav: [
       { text: "Home", link: "./" },
     ],
-    sidebar: sidebar(),
+    sidebar: {
+      "/en/gtceu/": gtceuSidebar(),
+    },
     returnToTopLabel: "Back to Top",
     sidebarMenuLabel: "Menu",
     outline: {
@@ -50,14 +52,17 @@ export const en = defineConfig({
   }
 });
 
-function sidebar(): DefaultTheme.SidebarItem[] {
+function gtceuSidebar(): DefaultTheme.SidebarItem[] {
   return [
     {
-      text: "GTCEu附属开发文档",
-      collapsed: false,
       items: [
-        { text: "引言", link: "./intro" },
-        { text: "元物品", link: "./chap1-metaitem" }
+        { text: "Introduction", link: "./intro" },
+        { text: "Meta Items", link: "./chap1-metaitem" },
+        { text: "Materials I", link: "./chap2-material" },
+        { text: "Materials II", link: "./chap3-material-2" },
+        { text: "Variant Blocks", link: "./chap4-variant-block" },
+        { text: "Recipes I", link: "./chap5-recipemap" },
+        { text: "Recipes II", link: "./chap6-recipemap-2" }
       ]
     }
   ]
