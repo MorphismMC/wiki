@@ -13,7 +13,7 @@
 模组的内部API已经经过了长足的迭代与优化，使得开发其的附属模组变得不再是一件困难的事。
 
 这个文档旨在向开发者介绍 GTCEu 中的诸多 API 设计与使用方式，来使开发者可以快速上手基于 GTCEu 的附属模组开发工作，
-同时也会介绍其背后的底层工作原理与一部分 GTCEu 所依赖模组的运作模式，例如 ModularUI2 与 CodeChickenLib（CCL）。
+同时也会介绍其背后的底层工作原理与一部分 GTCEu 所依赖模组的运作模式，例如 Modular UI 2 与 CodeChickenLib（CCL）。
 
 ## 凡例
 
@@ -25,8 +25,16 @@
 则处于模组内的对应功能类会被命名为 `GAMaterial`，另一个可用前缀名为 `Gregica`，一般用于一些使用通用前缀名容易引起混淆的情况，
 例如 `GregicaAPI` 与 `GAAPI`这样的区别。
 
-对于作为示例的语言，我们并不做特定的限制，一般来说会提供 Java 与 Kotlin 两种语言的代码示例，可以通过点击代码块顶部的方框进行切换。
-需要注意的是，若开发者期望在生产环境中获得 Kotlin 语言支持，则需要 [**Forgelin Continuous**](https://github.com/ChAoSUnItY/Forgelin-Continuous) 模组的支持。
+::: details 关于编程语言的使用
+
+我们默认使用 Java 语言，一般来说还会提供 Kotlin 语言的代码示例支持，可以通过点击代码块顶部的方框进行切换。 需要注意的是：
+- 我们可能会在开发示例中使用现代版本的 Java 语法，开发者需要使用附带 [**Jabel**](https://github.com/bsideup/jabel) 
+  或 [**Jvm Downgrader**](https://github.com/unimined/JvmDowngrader) 的环境来提供支持。
+- 若开发者期望在生产环境中获得 Kotlin 语言支持，则需要 [**Forgelin Continuous**](https://github.com/ChAoSUnItY/Forgelin-Continuous) 模组的支持。
+
+如果你希望使用其他的编程语言进行开发，请自行寻找相关的资料与构建环境，限于篇幅不在此处列举。
+
+:::
 
 ## 大致内容
 
