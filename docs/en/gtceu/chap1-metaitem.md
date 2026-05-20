@@ -1,18 +1,34 @@
 # Meta Items
 
-A Meta Item is an item system based on Minecraft's vanilla item system that allows identifying sub-items through metadata. Simply put, it fully utilizes each item's `damage` value to register sub-items, thereby fulfilling the need to register multiple sub-items under a single item ID. This need arises because GregTech needs to generate a large number of material component items and other accessory items.
+::: details Why MetaItems are Needed
 
-## Using Meta Items
+We need to register a large number of items, including but not limited to various materials and their component variants, circuit components, and derived items. The vanilla item registration system is very unfriendly to us due to ID limitations. Therefore, by utilizing the item's built-in `damage` parameter (you should find a method called `getMetadata(int damage)` in the vanilla `Item` class), we can free up more item registration IDs. This technique of using `damage` / `metadata` to bypass ID limitations is called the "Meta Hack."
 
-As the base class for registering meta items, `StandardMetaItem` provides a simple implementation. You only need to extend this class to create a simple meta item class:
+:::
+
+A **Meta Item** is an item system based on the vanilla item system that allows identifying sub-items through **metadata**. Simply put, it fully utilizes each item's additional parameters to register sub-items, thereby fulfilling the need to register multiple sub-items under a single item ID, which to some extent bypasses the problem of limited registration IDs.
+
+In GTCEu's terminology, the item described above is called a `MetaItem`, and all sub-items are `MetaValueItem`s. In this chapter, our discussion always focuses on basic items; for content such as `MetaPrefixItem`, please refer to other chapters.
+
+## About Sub-item Construction
+
+In `MetaItem`, according to the generic constraint, `<T>` restricts the generic type to `MetaValueItem`. We cache all sub-items and the required models (or special models) within it.
+
+The method for constructing sub-items, `constructMetaValueItem`, is an abstract method. There are two default options available:
+- General items (`StandardMetaItem`): equivalent to directly using `MetaValueItem` for creation.
+- Armor items (`ArmorMetaItem`): calls `ArmorMetaValueItem` within `ArmorMetaItem` for creation, which comes with `IArmorLogic`-related handling.
+
+When we use the `addItem` method to add an item, we are essentially constructing a sub-item, then storing it in the corresponding cache and returning the sub-item. All sub-item models are processed through the client-side `registerModels` method. You can modify the default path of sub-item models by overriding the `createItemModelPath` or `formatModelPath` methods within it.
+
+## Registering Meta Items
+
+For general items, we can directly extend the existing `StandardMetaItem` and override its methods:
 
 ::: code-group
-
 ```java
 import gregtech.api.items.metaitem.StandardMetaItem;
 
 public class GAMetaItem1 extends StandardMetaItem {
-
     public GAMetaItem1() {
         super();
     }
@@ -21,123 +37,99 @@ public class GAMetaItem1 extends StandardMetaItem {
     public void registerSubItems() {
         // ...
     }
-
 }
 ```
-
 ```kotlin
 import gregtech.api.items.metaitem.StandardMetaItem
 
-object GAMetaItem() {
-
-    private lateinit var META_ITEMS: MetaItem<*>
-
-    fun init() {
-        META_ITEMS = StandardMetaItem()
-    }
-
-    fun register() {
+class GAMetaItem1 : StandardMetaItem() {
+    override fun registerSubItems() {
         // ...
     }
-
 }
-
 ```
-
-```scala
-import gregtech.api.items.metaitem.StandardMetaItem
-
-object GAMetaItem {
-
-    private var metaItems: MetaItem[_] = _
-
-    def init(): Unit = {
-        metaItems = new StandardMetaItem()
-    }
-
-    def register(): Unit = {
-        // ...
-    }
-
-}
-
-```
-
 :::
 
-In short, a meta item class includes an initialized `StandardMetaItem` object that carries all sub-items, as well as a `registerSubItems` method for registering content. Since `StandardMetaItem` extends `MetaItem`, it possesses all the functionality of `MetaItem`, and can also use some methods based on the vanilla `Item` class, such as using `setCreativeTabs` to set its `CreativeTabs`.
-
-A simple example: if we want to register a meta item named `example_item`, we can do it like this:
+For convenience, we generally categorize items by their general type, and the suffix in the class name `GAMetaItem1` here follows this convention. For registration, you can use a unified class `GAMetaItems` to hold the registration objects (which is also more caller-friendly). In the specific registration process, simply use static imports.
 
 ::: code-group
-
 ```java
-import gregtech.api.items.metaitem.StandardMetaItem;
+// GAMetaItems.java
+import gregtech.api.items.metaitem.MetaItem;
 
 public final class GAMetaItems {
-
     public static MetaItem<?>.MetaValueItem EXAMPLE_ITEM;
-
 }
 
-public class GAMetaItem1 extends StandardMetaItem {
+// GAMetaItem1.java
+import gregtech.api.items.metaitem.StandardMetaItem;
 
+import static com.morphismmc.gregica.common.item.GAMetaItems.*;
+
+public class GAMetaItem1 extends StandardMetaItem {
     public GAMetaItem1() {
         super();
     }
 
     @Override
     public void registerSubItems() {
-        GAMetaItems.EXAMPLE_ITEM = addItem(1, "example_item");
+        EXAMPLE_ITEM = addItem(1, "example_item");
     }
-
 }
 ```
-
 ```kotlin
-import gregtech.api.items.metaitem.StandardMetaItem
+// GAMetaItems.kt
+import gregtech.api.items.metaitem.MetaItem
 
-object GAMetaItem() {
-
-    private lateinit var META_ITEMS: MetaItem<*>
-
+object GAMetaItems {
     lateinit var EXAMPLE_ITEM: MetaItem<*>.MetaValueItem
-
-    fun init() {
-        META_ITEMS = StandardMetaItem()
-    }
-
-    fun register() {
-        EXAMPLE_ITEM = META_ITEMS.addItem(1, "example_item")
-    }
-
 }
 
-```
-
-```scala
+// GAMetaItem1.kt
 import gregtech.api.items.metaitem.StandardMetaItem
+import com.morphismmc.gregica.common.item.GAMetaItems.Companion.EXAMPLE_ITEM
 
-object GAMetaItem {
-
-    private var metaItems: MetaItem[_] = _
-
-    var EXAMPLE_ITEM: MetaItem[_]#MetaValueItem = _
-
-    def init(): Unit = {
-        metaItems = new StandardMetaItem()
+class GAMetaItem1 : StandardMetaItem() {
+    override fun registerSubItems() {
+        EXAMPLE_ITEM = addItem(1, "example_item")
     }
-
-    def register(): Unit = {
-        EXAMPLE_ITEM = metaItems.addItem(1, "example_item")
-    }
-
 }
-
 ```
-
 :::
 
-Note that when using Kotlin or Scala, you need to call the `init` and `register` methods at the appropriate stages to complete initialization, otherwise registration will fail.
+You also need to choose a registry name for the meta item. All sub-items will exist as IDs under this registry name.
+::: code-group
+```java
+import com.morphismmc.gregica.common.item.GAMetaItem1;
+import gregtech.api.items.metaitem.MetaItem;
 
-The default model path for a meta item is `assets/gregtech/models/item/metaitems/example_item.json`. You can change it by overriding the corresponding method in the `StandardMetaItem` class. See the relevant methods `formatModelPath` and `createItemModelPath` in the `MetaItem` class for details.
+public final class GAMetaItems {
+    public static MetaItem<?>.MetaValueItem EXAMPLE_ITEM;
+
+    public static void init() { // [!code focus]
+        GAMetaItem1 first = new GAMetaItem1(); // [!code focus]
+        first.setRegistryName("ga_meta_item_1"); // [!code focus]
+    } // [!code focus]
+}
+```
+```kotlin
+import com.morphismmc.gregica.common.item.GAMetaItem1
+import gregtech.api.items.metaitem.MetaItem
+
+object GAMetaItems {
+    lateinit var EXAMPLE_ITEM: MetaItem<*>.MetaValueItem
+
+    internal fun init() { // [!code focus]
+        GAMetaItem1().let { it.registryName = "ga_meta_item_1" } // [!code focus]
+    } // [!code focus]
+}
+```
+:::
+
+The `init` method here should be invoked during the `FMLPreInitializationEvent` phase.
+
+## Sub-item Models and Localization
+
+The default model path for a meta item is `assets/gregtech/models/item/metaitems/example_item.json`.
+
+## Sub-item Behavior
