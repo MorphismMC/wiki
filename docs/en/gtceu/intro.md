@@ -1,85 +1,51 @@
-# 引言
+# Introduction
 
 ::: tip
 
-我们默认您已经对 Minecraft 模组开发的相关知识有所掌握，因此在本文档中我们将只对这部分内容做回顾性介绍。若您想要了解相关内容，请查阅相关的文档部分。
+We assume you already have knowledge of Minecraft mod development, so in this document we will only provide a review-style introduction to these topics. If you want to learn about related content, please refer to the relevant documentation sections.
 
 :::
 
-## 简介
+## Overview
 
-**格雷科技社区版：非官方版**（GregTech CE Unofficial，简称**GTCEu**）是一个支持 Minecraft 1.12.2 版本的格雷科技模组，是原有的旧模组**格雷科技社区版**的分支，在本文档中的相关叙述中，我们均以其简称来代指本模组。本模组提供了相当多的面向附属模组的通用API，使得开发者基于此模组开发成为了可能。
+**GregTech** is a famous technology mod in Minecraft, known for its complex mechanics, factory-style production, and rich content. This mod was originally developed by GregoriusT personally, and later maintained by the GTCEu team for the 1.12.2 version. From the earliest GregTech Community Edition (GTCE) to today's **GregTech Community Edition: Unofficial** (GTCEu), the mod's internal API has undergone extensive iteration and optimization, making the development of addon mods no longer a difficult task.
 
-在本文档中，我们将会提供 Java 与 Kotlin 两种语言的代码示例，你可以通过在代码块中的图标与标题进行切换。需要注意的是，如果您期望在生产环境中使用 Kotlin 语言，则需要 [**Forgelin Continuous**](https://github.com/ChAoSUnItY/Forgelin-Continuous) 模组的支持。
+This document aims to introduce developers to the many API designs and usage patterns in GTCEu, enabling them to quickly get started with GTCEu-based addon mod development. It will also cover the underlying working principles and the operation modes of some mods that GTCEu depends on, such as Modular UI 2 and CodeChickenLib (CCL).
 
-在介绍具体内容的文档中，我们以一个名为 `Gregica` 的模组作为示例（需要注意的是，这个模组仅作为演示时使用，并不是真实存在的已发布模组，如存在同名模组则无相应关系），这个模组的类通常以 `GA` 作为名称的前缀。
+## Conventions
 
-## 本文档的主旨
+This section establishes systematic conventions for notation and narrative style used throughout this documentation series. This document uses a fictional mod called `Gregica` as the main subject for development and demonstration. Developers can follow along with the content of this document to actually create a GTCEu addon mod named `Gregica`. Note that this mod exists solely as an example and is not a real released or unreleased mod.
 
-如你所见，格雷科技这一模组的特色就是大量的材料，方块与机器，这不可避免的需要足够良好的API。恰巧，GTCEu为这些功能各自设计了API，使得附属模组可以更好的进行开发。
+The common class prefix for this mod is `GA`, meaning that if there is a class with the same name in an external package, such as `Material`, the corresponding functional class within the mod will be named `GAMaterial`. Another available prefix is `Gregica`, generally used in situations where the common prefix might cause confusion, such as the distinction between `GregicaAPI` and `GAAPI`.
 
-一个典型的例子是注册金属材料的构建器：
+::: details Regarding Programming Language Usage
 
-::: code-group
+We default to using the Java language and generally provide Kotlin code examples as well, which can be switched by clicking the tab at the top of the code block. Note that:
+- We may use modern Java syntax in development examples; developers need to use an environment with [**Jabel**](https://github.com/bsideup/jabel) or [**Jvm Downgrader**](https://github.com/unimined/JvmDowngrader) for support.
+- If developers wish to use Kotlin in a production environment, the [**Forgelin Continuous**](https://github.com/ChAoSUnItY/Forgelin-Continuous) mod is required.
 
-```java [MaterialBuilderExample.java]
-import gregtech.api.unification.material.Material;
-import gregtech.api.unification.material.properties.BlastProperty.GasTier;
-import gregtech.api.unification.material.properties.MaterialToolProperty;
-
-import static gregtech.api.GTValues.*;
-import static gregtech.api.unification.material.info.MaterialFlags.*;
-import static gregtech.api.unification.material.info.MaterialIconSet.*;
-import static gregtech.api.util.GTUtility.gregtechId;
-
-public static Material Aluminium = new Material.Builder(2, gregtechId("aluminium"))
-    .ingot()
-    .liquid(new FluidBuilder().temperature(933))
-    .ore()
-    .color(0x80C8F0)
-    .flags(EXT2_METAL, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_RING, GENERATE_FRAME, GENERATE_SPRING,
-        GENERATE_SPRING_SMALL, GENERATE_FINE_WIRE, GENERATE_DOUBLE_PLATE)
-    .element(Elements.Al)
-    .toolStats(MaterialToolProperty.Builder.of(6.0F, 7.5F, 768, 2)
-        .enchantability(14)
-        .build())
-    .rotorStats(10.0f, 2.0f, 128)
-    .cableProperties(V[EV], 1, 1)
-    .fluidPipeProperties(1166, 100, true)
-    .blast(1700, GasTier.LOW)
-    .build();
-```
-
-```kotlin [MaterialBuilderExample.kt]
-import gregtech.api.unification.material.Material
-import gregtech.api.unification.material.properties.BlastProperty.GasTier
-import gregtech.api.unification.material.properties.MaterialToolProperty
-
-import static gregtech.api.GTValues.*
-import static gregtech.api.unification.material.info.MaterialFlags.*
-import static gregtech.api.unification.material.info.MaterialIconSet.*
-import static gregtech.api.util.GTUtility.gregtechId
-
-var Aluminium: Material = Material.Builder(2, gregtechId("aluminium"))
-    .ingot()
-    .liquid(FluidBuilder().temperature(933))
-    .ore()
-    .color(0x80C8F0)
-    .flags(EXT2_METAL, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_RING, GENERATE_FRAME, GENERATE_SPRING,
-        GENERATE_SPRING_SMALL, GENERATE_FINE_WIRE, GENERATE_DOUBLE_PLATE)
-    .element(Elements.Al)
-    .toolStats(MaterialToolProperty.Builder.of(6.0F, 7.5F, 768, 2)
-        .enchantability(14)
-        .build())
-    .rotorStats(10.0f, 2.0f, 128)
-    .cableProperties(V[EV], 1, 1)
-    .fluidPipeProperties(1166, 100, true)
-    .blast(1700, GasTier.LOW)
-    .build()
-
-```
+If you wish to use other programming languages for development, please find relevant resources and build environments on your own; they are not listed here due to space constraints.
 
 :::
-GTCEu提供了关于材料的各项数值与生成设置，只需要通过一系列配置就可以控制材料是否生成对应物品与方块，甚至还在配方阶段有对应的处理来生成配方！
 
-本文档的主要内容就是介绍这些或复杂或简单的API，以便你更好的阅读与理解GTCEu的代码，相信这些文档对你的GTCEu附属开发工作有所帮助！
+## General Content
+
+This document uses the latest GTCEu version's API for demonstration, meaning that non-release version changes are also taken into consideration. Specific content can be found in the sidebar categories. We use chapters as the basic unit of document composition, with each chapter containing 1–4 sections to cover specific content. Based on these considerations, the writing of this document has the following characteristics:
+
+- Serves as both an introduction and usage guide for beginners, and as a reference for developers already familiar with the relevant APIs;
+- Emphasizes principles and underlying implementations, but does not force developers to read related content; generally, this content is collapsed or cited within the main text;
+
+As an introduction, it is necessary to state the prerequisite knowledge required for reading this document:
+
+- Mastery of basic Java or Kotlin syntax, at least understanding its object-oriented features, if-else structures and other basic operations;
+- Basic understanding of Minecraft 1.12.2 and Forge development knowledge, at least understanding event registration and related content;
+
+For content exceeding these limits, we will reference relevant external materials or provide review-style introductions within the document.
+
+## Reading Guide
+
+The overall writing structure of this document progresses from relatively simple parts, starting with an introduction to Meta Items and their related APIs, aiming to spark developers' interest in other APIs after understanding some holistic APIs.
+
+We adopt a distinction between **Inner Chapters** and **Outer Chapters** to present content to developers. Inner Chapters cover the common foundational framework, while Outer Chapters serve as supplements and extensions to the Inner Chapters, involving more expansive content. For example, for the Materials section, the Inner Chapters include introductions to material registration, ore prefixes, flags, and icon sets, while the Outer Chapters include introductions to the `CraftingComponent` API and `MarkerMaterial` API. These two small APIs are part of the material-related APIs but are mostly used for ore dictionary and recipe registration, thus they are placed within the scope of Outer Chapters.
+
+When reading, Outer Chapter content can be skipped for the time being; you may skip them when appropriate and review them later when needed.
