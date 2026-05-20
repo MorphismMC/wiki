@@ -245,22 +245,20 @@ onUnmounted(() => {
   margin: 0 8px;
 }
 
-/* Input wrapper */
+/* Input wrapper — OreUI beveled border style, mirrors .DocSearch-Button */
 .oreui-search-input-wrapper {
   display: flex;
   align-items: center;
-  background-color: #48494A;
-  border: 2px solid #333334;
+  background-color: var(--vp-c-bg);
+  border: 2px solid var(--vp-c-border);
   border-top-color: #5A5B5C;
   box-shadow:
-    inset 0 -3px #58585A,
+    inset 0 -3px var(--vp-c-divider),
     inset 2px 2px rgba(255, 255, 255, 0.08),
     inset -2px -5px rgba(255, 255, 255, 0.05);
   height: 32px;
   padding: 0 6px;
   transition: border-color 0.15s;
-  /* sharp corners for Minecraft aesthetic */
-  border-radius: 0 !important;
 }
 
 .oreui-search-input-wrapper:focus-within {
@@ -270,7 +268,7 @@ onUnmounted(() => {
 /* Search icon */
 .oreui-search-icon {
   flex-shrink: 0;
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--vp-c-text-3);
   margin: 0 6px 0 4px;
 }
 
@@ -284,8 +282,8 @@ onUnmounted(() => {
   background: none;
   border: none;
   outline: none;
-  color: #FFFFFF;
-  font-family: 'NotoSans Bold', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--vp-c-text-1);
+  font-family: var(--vp-font-family-base);
   font-size: 13px;
   line-height: 1;
   min-width: 0;
@@ -303,14 +301,14 @@ onUnmounted(() => {
   justify-content: center;
   background: none;
   border: none;
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--vp-c-text-3);
   cursor: pointer;
   padding: 2px;
   margin: 0 2px;
 }
 
 .oreui-search-clear:hover {
-  color: #FFFFFF;
+  color: var(--vp-c-text-1);
 }
 
 /* Results dropdown */
@@ -319,16 +317,15 @@ onUnmounted(() => {
   top: calc(100% + 4px);
   left: 0;
   right: 0;
-  background-color: #3E3F40;
-  border: 2px solid #333334;
+  background-color: var(--vp-c-bg-alt);
+  border: 2px solid var(--vp-c-border);
   border-top: 2px solid #5A5B5C;
   box-shadow:
-    inset 0 -2px #58585A,
+    inset 0 -2px var(--vp-c-divider),
     0 4px 12px rgba(0, 0, 0, 0.4);
   z-index: 1000;
   max-height: 360px;
   overflow-y: auto;
-  border-radius: 0 !important;
 }
 
 /* Result items */
@@ -336,7 +333,7 @@ onUnmounted(() => {
   padding: 8px 12px;
   cursor: pointer;
   border-left: 2px solid transparent;
-  border-bottom: 1px solid #58585A;
+  border-bottom: 1px solid var(--vp-c-divider);
   transition: background-color 0.1s, border-left-color 0.1s;
 }
 
@@ -346,20 +343,20 @@ onUnmounted(() => {
 
 .oreui-search-result-item:hover,
 .oreui-search-result-item.oreui-selected {
-  background-color: #48494A;
-  border-left: 2px solid #FFFFFF;
+  background-color: var(--vp-c-bg);
+  border-left: 2px solid var(--vp-c-text-1);
 }
 
 .oreui-search-result-item.oreui-selected {
-  background-color: rgba(60, 133, 39, 0.12);
-  border-left: 2px solid #3C8527;
+  background-color: var(--vp-c-brand-soft);
+  border-left: 2px solid var(--vp-c-brand-1);
 }
 
 /* Result title */
 .oreui-search-result-title {
-  font-family: 'NotoSans Bold', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: var(--vp-font-family-base);
   font-size: 13px;
-  color: #FFFFFF;
+  color: var(--vp-c-text-1);
   line-height: 1.4;
 }
 
@@ -370,18 +367,18 @@ onUnmounted(() => {
 
 /* Result path */
 .oreui-search-result-path {
-  font-family: 'NotoSans Bold', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: var(--vp-font-family-base);
   font-size: 10px;
-  color: rgba(255, 255, 255, 0.35);
+  color: var(--vp-c-text-3);
   margin-top: 1px;
   line-height: 1.3;
 }
 
 /* Result snippet */
 .oreui-search-result-snippet {
-  font-family: 'NotoSans Bold', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: var(--vp-font-family-base);
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--vp-c-text-2);
   margin-top: 2px;
   line-height: 1.4;
   overflow: hidden;
@@ -398,26 +395,9 @@ onUnmounted(() => {
 .oreui-search-no-results {
   padding: 12px;
   text-align: center;
-  font-family: 'NotoSans Bold', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: var(--vp-font-family-base);
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.45);
-}
-
-/* Scrollbar (matches site scrollbar) */
-.oreui-search-results::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-
-.oreui-search-results::-webkit-scrollbar-track {
-  background-color: #58585A;
-  border: 2px solid #333334;
-}
-
-.oreui-search-results::-webkit-scrollbar-thumb {
-  background-color: #E6E8EB;
-  border: 2px solid #1E1E1F;
-  box-shadow: inset 0 -4px #58585A, inset 0 -6px #F9FAFA, inset 2px 2px #F9FAFA, inset -2px 0 #F9FAFA;
+  color: var(--vp-c-text-3);
 }
 
 /* Mobile: hide search or make smaller */
