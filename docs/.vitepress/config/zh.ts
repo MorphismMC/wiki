@@ -52,17 +52,6 @@ export const zh = defineConfig({
             next: "下一页",
         }
     },
-    markdown: {
-      container: {
-        tipLabel: "提示",
-        warningLabel: "警告",
-        dangerLabel: "危险",
-        infoLabel: "信息",
-        detailsLabel: "详细信息"
-      },
-
-      codeCopyButtonTitle: "复制代码"
-    }
 });
 
 function mixinSidebar(): DefaultTheme.SidebarItem[] {

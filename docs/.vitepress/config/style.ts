@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitepress'
 import { groupIconMdPlugin, groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 import { MermaidMarkdown, MermaidPlugin } from "vitepress-plugin-mermaid"
+import { localeContainersPlugin } from "../plugin/locale-containers"
 
 export const style = defineConfig({
 
@@ -10,6 +11,7 @@ export const style = defineConfig({
     config(md) {
       md.use(groupIconMdPlugin)
       md.use(MermaidMarkdown)
+      localeContainersPlugin(md)
     }
 
   },
